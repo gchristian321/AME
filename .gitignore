@@ -1,0 +1,6 @@
+AmeDict.*
+doc
+example
+*.o
+*.so
+*.gch
