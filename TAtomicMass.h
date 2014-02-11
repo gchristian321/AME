@@ -87,31 +87,31 @@ public:
 	/// Returns the _nuclear_ (fully ionized) mass error for a given nucleus, in keV/c^2
 	double NuclearMassError(const char* symbol) const; // keV/c^2
 
-	/// Returns te _nuclear_ (fully ionized) mass value for a given nucleus, in AMU
+	/// Returns the _nuclear_ (fully ionized) mass value for a given nucleus, in AMU
 	double NuclearMassAMU(int Z, int A) const { return NuclearMass(Z, A) / AMU(); } // AMU
-	/// Returns te _nuclear_ (fully ionized) mass error for a given nucleus, in AMU
+	/// Returns the _nuclear_ (fully ionized) mass error for a given nucleus, in AMU
 	double NuclearMassErrorAMU(int Z, int A) const { return NuclearMassError(Z, A) / AMU(); } //AMU
-	/// Returns te _nuclear_ (fully ionized) mass value for a given nucleus, in AMU
+	/// Returns the _nuclear_ (fully ionized) mass value for a given nucleus, in AMU
 	double NuclearMassAMU(const char* symbol) const { return NuclearMass(symbol) / AMU(); } // AMU
-	/// Returns te _nuclear_ (fully ionized) mass error for a given nucleus, in AMU
+	/// Returns the _nuclear_ (fully ionized) mass error for a given nucleus, in AMU
 	double NuclearMassErrorAMU(const char* symbol) const { return NuclearMassError(symbol) / AMU(); } //AMU
 
-	/// Returns te ion (partially ionized) mass value for a given nucleus, in keV/c^2
+	/// Returns the ion (partially ionized) mass value for a given nucleus, in keV/c^2
 	double IonMass(int Z, int A, int chargeState) const { return NuclearMass(Z, A) + ElectronMass()*(Z-chargeState); } // keV/c^2
-	/// Returns te ion (partially ionized) mass error for a given nucleus, in keV/c^2
+	/// Returns the ion (partially ionized) mass error for a given nucleus, in keV/c^2
 	double IonMassError(int Z, int A, int charge) const { return NuclearMassError(Z, A); } // keV/c^2
-	/// Returns te ion (partially ionized) mass value for a given nucleus, in keV/c^2
+	/// Returns the ion (partially ionized) mass value for a given nucleus, in keV/c^2
 	double IonMass(const char* symbol, int chargeState) const; // keV/c^2
-	/// Returns te ion (partially ionized) mass error for a given nucleus, in keV/c^2
+	/// Returns the ion (partially ionized) mass error for a given nucleus, in keV/c^2
 	double IonMassError(const char* symbol, int charge) const { return NuclearMassError(symbol); } // keV/c^2
 
-	/// Returns te ion (partially ionized) mass value for a given nucleus, in AMU
+	/// Returns the ion (partially ionized) mass value for a given nucleus, in AMU
 	double IonMassAMU(int Z, int A, int chargeState) const { return IonMass(Z, A, chargeState) / AMU(); } // AMU
-	/// Returns te ion (partially ionized) mass error for a given nucleus, in AMU
+	/// Returns the ion (partially ionized) mass error for a given nucleus, in AMU
 	double IonMassErrorAMU(int Z, int A, int chargeState) const { return NuclearMassErrorAMU(Z, A); } // AMU
-	/// Returns te ion (partially ionized) mass value for a given nucleus, in AMU
+	/// Returns the ion (partially ionized) mass value for a given nucleus, in AMU
 	double IonMassAMU(const char* symbol, int chargeState) const { return IonMass(symbol, chargeState) / AMU(); } // AMU
-	/// Returns te ion (partially ionized) mass error for a given nucleus, in AMU
+	/// Returns the ion (partially ionized) mass error for a given nucleus, in AMU
 	double IonMassErrorAMU(const char* symbol, int chargeState) const { return NuclearMassErrorAMU(symbol); } // AMU
 
 	/// Returns the AMU -> keV/c^2 conversion

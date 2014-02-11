@@ -1,3 +1,7 @@
+///
+/// \file example.cxx
+/// \brief Very simple example program using th TAtomicMass class
+///
 #include <iostream>
 #include "TAtomicMass.h"
 
