@@ -38,14 +38,12 @@ bool TAtomicMassTable::CompareNucleus_t::operator()
 	return lhs.fZ < rhs.fZ;
 }
 
-TAtomicMassTable::TAtomicMassTable(const char* file):
-	fFile(0)
+TAtomicMassTable::TAtomicMassTable(const char* file)
 {
 	SetFile(file);
 }
 
-TAtomicMassTable::TAtomicMassTable():
-	fFile(0)
+TAtomicMassTable::TAtomicMassTable()
 {
 #ifdef AMEPP_DEFAULT_FILE
 	SetFile(AMEPP_DEFAULT_FILE);
@@ -54,13 +52,7 @@ TAtomicMassTable::TAtomicMassTable():
 
 void TAtomicMassTable::SetFile(const char* filename)
 {
-	fFile.reset(new std::ifstream(filename));
-	if(fFile->good())
-		ParseFile(filename);
-	else {
-		ParseFile(filename);
-		fFile.reset(0);
-	}
+	ParseFile(filename);
 }
 
 const TAtomicMassTable::Nucleus_t* TAtomicMassTable::GetNucleus(int Z, int A) const
@@ -103,7 +95,9 @@ void TAtomicMassTable::SetMassExcess(int Z, int A, double value, double error, b
 
 void TAtomicMassTable::ParseFile(const char* name)
 {
-	if(!fFile->good()) {
+	std::ifstream ffile(name);
+
+	if(!ffile.good()) {
 		if(name)
 			std::cerr << "Error: couldn't find database file: \"" << name << "\"\n";
 		else
@@ -114,7 +108,7 @@ void TAtomicMassTable::ParseFile(const char* name)
 	const int num_headers = 39;
 	int linenum = 0;
 	std::string line;
-	while(std::getline(*fFile, line)) {
+	while(std::getline(ffile, line)) {
 		if(linenum++ < num_headers) // skip headers
 			continue; 
 		Nucleus_t nuc;

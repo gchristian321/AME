@@ -2,7 +2,8 @@
 
 ##
 ## Check for ROOT installation
-ifdef ROOTSYSS
+ifdef ROOTSYS
+CXXFLAGS+=-DHAVE_ROOTSYS
 ROOTLIBS=$(shell root-config --libs --glibs) -lXMLParser -lThread -lTreePlayer -lSpectrum -lMinuit
 INCFLAGS+=$(shell root-config --cflags --noauxcflags)
 MAKEDICT=rootcint -f $@ -c $(CXXFLAGS) -p $^
@@ -35,7 +36,7 @@ OBJECTS=TAtomicMass.o
 all: example
 
 example: example.cxx libAme.so
-	c++ -o $@ $< $(CXXFLAGS) -L$(PWD) -lAme
+	c++ -o $@ $< $(CXXFLAGS) -L$(PWD) -lAme $(ROOTLIBS)
 
 libAme.so: $(OBJECTS) AmeDict.cxx
 	c++ -o $@ $^ $(DYLIB) $(FPIC) $(CXXFLAGS) $(ROOTLIBS)

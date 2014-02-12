@@ -9,10 +9,17 @@
 #include <memory>
 #include <fstream>
 #include <iostream>
+#ifdef HAVE_ROOTSYS
+#include <TObject.h>
+#endif
 
 
 /// Class to extract and calculate atomic mass information from an AME file
-class TAtomicMassTable {
+class TAtomicMassTable
+#ifdef HAVE_ROOTSYS
+	: public TObject
+#endif
+{
 public:
   /// Contains information on a nucleus
 	struct Nucleus_t {
@@ -125,7 +132,10 @@ private:
 
 private:
 	Map_t fMassData;
-	std::auto_ptr<std::istream> fFile;
+
+#ifdef HAVE_ROOTSYS
+	ClassDef(TAtomicMassTable, 1);
+#endif
 };
 
 
