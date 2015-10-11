@@ -2,15 +2,16 @@
 
 ##
 ## Check for ROOT installation
-ifdef ROOTSYS
+ROOTCONFIG:=$(shell which root-config)
+ifndef ROOTCONFIG
+MAKEDICT+=$(shell rm -f AmeDict.h AmeDict.cxx)
+MAKEDICT+=$(shell echo '' >AmeDict.h)
+MAKEDICT+=$(shell echo '\#include "AmeDict.h"\nnamespace {void dummy() {}}' >AmeDict.cxx)
+else
 CXXFLAGS+=-DHAVE_ROOTSYS
 ROOTLIBS=$(shell root-config --libs --glibs) -lXMLParser -lThread -lTreePlayer -lSpectrum -lMinuit
 INCFLAGS+=$(shell root-config --cflags --noauxcflags)
 MAKEDICT=rootcint -f $@ -c $(CXXFLAGS) -p $^
-else
-MAKEDICT+=$(shell rm -f AmeDict.h AmeDict.cxx)
-MAKEDICT+=$(shell echo '' >AmeDict.h)
-MAKEDICT+=$(shell echo '\#include "AmeDict.h"\nnamespace {void dummy() {}}' >AmeDict.cxx)
 endif
 
 ##
@@ -20,10 +21,10 @@ ifeq ($(UNAME),Darwin)
 DYLIB=-dynamiclib -single_module -undefined dynamic_lookup
 else
 DYLIB=-shared
-FPIC=-fPIC
+FPIC=-fPIC 
 endif
 
-CXXFLAGS += $(INCFLAGS) -DAMEPP_DEFAULT_FILE=\"$(PWD)/mass.mas12\"
+CXXFLAGS += $(INCFLAGS) $(FPIC) -DAMEPP_DEFAULT_FILE=\"$(PWD)/mass.mas12\"
 
 
 HEADERS=TAtomicMass.h
@@ -39,7 +40,7 @@ example: example.cxx libAme.so
 	c++ -o $@ $< $(CXXFLAGS) -L$(PWD) -lAme $(ROOTLIBS)
 
 libAme.so: $(OBJECTS) AmeDict.cxx
-	c++ -o $@ $^ $(DYLIB) $(FPIC) $(CXXFLAGS) $(ROOTLIBS)
+	c++ -o $@ $^ $(DYLIB) $(CXXFLAGS)
 
 AmeDict.cxx: $(HEADERS) AmeLinkdef.h
 	$(MAKEDICT)
